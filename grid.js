@@ -12,6 +12,7 @@ var maze = []
 var parents = []
 var start = {"x":0, "y":0}
 var exit = {"x":0, "y":0}
+var key = {"x":0, "y":0}
 
 
 
@@ -49,7 +50,7 @@ $(document).ready(function(){
     gen_start()
     player = start
     gen_end()
-
+    gen_key()
     // gen_mask()
     // move_mask()
 })
@@ -137,6 +138,25 @@ function gen_end(){
     }
     $("#Box_"+point.x+"_"+point.y).css("background-color", "green")
     exit = point
+}
+
+function gen_key(){
+    $("#Box_"+key.x+"_"+key.y).css("background-color", "transparent")
+    let point = gen_point_full()
+    var distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
+    while(distance < Math.floor(size*.75)){
+        console.log(distance)
+        point = gen_point_full()
+        distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
+    }
+    $("#Box_"+point.x+"_"+point.y).css("background-color", "gold")
+
+    if (start != point && exit != point){ 
+        key = point
+    }
+    else{
+        gen_key() // point is at start or exit so recalculate
+    }
 }
 
 function findNewCell(cell, direction){
@@ -278,6 +298,7 @@ function resetBoard(){
     recGenerate(Math.floor(Math.random() * numcells))
     gen_start()
     gen_end()
+    gen_key()
 }
 
 function resetSize(){
