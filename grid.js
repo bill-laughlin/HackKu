@@ -320,5 +320,10 @@ function generateBox(){
 }
 
 function directions(){
-    alert("Welcome to the maze!\nWhen you are ready, select 'Generate New Maze'\nIf you would like to generate a new maze before you finish, select 'Generate New Maze'\nNavigate to the exit using the arrow keys\nTo make exit available, you must collect all keys along the way")
+    alert(`Welcome to the maze!\n
+    \nWhen you are ready, select 'Generate New Maze'.\n
+    \nIf you would like to generate a new maze before you finish, select 'Generate New Maze'.\n
+    \nNavigate to the exit using the arrow keys.\n
+    \nTo make exit available, you must collect all keys along the way."
+    `)
 }
