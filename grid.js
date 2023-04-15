@@ -2,7 +2,7 @@
 //https://stackoverflow.com/questions/38502/whats-a-good-algorithm-to-generate-a-maze
 
 
-var size = 50
+var size =20
 var box_dimension = 30
 
 var vision = 7 //boxes up or down
@@ -54,6 +54,7 @@ async function start_sequence() {
     const myPromise = new Promise(async (resolve, reject) => {
         // do something async
         await gray_maze()
+        visitedArrayRefresh()
         for(let i = 0; i< size; i++){
             for(let j = 0; j < size; j++){
                 $("#Box_"+j+"_"+i).css("background-color", "transparent")
@@ -64,6 +65,7 @@ async function start_sequence() {
     }).then(function(){    
         const newpromise = new Promise(async (resolve, reject) => {
             // do something async
+            
             await recGenerate(Math.floor(Math.random() * numcells))
             resolve(); 
         }).then(function(){
@@ -87,6 +89,8 @@ async function gray_maze(){
     for(let i = 0; i< size; i++){
         for(let j = 0; j < size; j++){
             $("#Box_"+j+"_"+i).css("background-color", "gray")
+            $("#Box_"+j+"_"+i).css("border", "2px solid black")
+            $("#Mask_"+j+"_"+i).css("background-color", "transparent")
         }
         await new Promise(resolve => setTimeout(resolve, 10));
     }
@@ -204,6 +208,7 @@ function gen_end(){
     exit = point
 }
 
+
 function gen_key(){
     $("#Box_"+key.x+"_"+key.y).css("background-color", "transparent")
     let point = gen_point_full()
@@ -222,6 +227,7 @@ function gen_key(){
         gen_key() // point is at start or exit so recalculate
     }
 }
+
 
 function findNewCell(cell, direction){
     var directionCalc = [1, -1, -size, size] // R, L, U, D
@@ -280,6 +286,8 @@ async function recGenerate(cell){
         }
     }
 }
+
+
 function checkGoal(){
     if (player.x == key.x && player.y == key.y){
         isKeyFound = true
@@ -292,7 +300,7 @@ function checkGoal(){
 function celebration(){
     // confetti
     // up level
-    resetBoard()
+    start_sequence()
 }
 
 document.addEventListener('keydown', function(event) {
@@ -398,19 +406,7 @@ function move_mask(){
     }
 }
 
-function resetBoard(){
-	visitedArrayRefresh()
-	for(let i = 0; i< size; i++){
-        for(let j = 0; j < size; j++){
-            $("#Box_"+j+"_"+i).css("border", "2px solid black")
-        }
-    }
-    recGenerate(Math.floor(Math.random() * numcells))
-    gen_start()
-    gen_end()
-    gen_key()
-    isKeyFound = false
-}
+
 
 function resetSize(){
 	for(let i = 0; i< size; i++){
