@@ -53,6 +53,10 @@ $(document).ready(function(){
 async function start_sequence() {
     const myPromise = new Promise(async (resolve, reject) => {
         // do something async
+        $("#Box_"+player.x+"_"+player.y).css("background-image", "")
+        $("#Box_"+start.x+"_"+start.y).css("background-color", "transparent")
+        $("#Box_"+key.x+"_"+key.y).css("background-color", "transparent")
+        $("#Box_"+exit.x+"_"+exit.y).css("background-color", "transparent")
         await gray_maze()
         visitedArrayRefresh()
         for(let i = 0; i< size; i++){
@@ -68,13 +72,14 @@ async function start_sequence() {
             
             await recGenerate(Math.floor(Math.random() * numcells))
             resolve(); 
-        }).then(function(){
+        }).then(function(){ 
             gen_start()
             gen_end()
             gen_key()
             start = true; //
             gen_mask()
             move_mask()
+            document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')"
             start = false;
         })
 
@@ -333,7 +338,7 @@ document.addEventListener('keydown', function(event) {
 
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
         tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-        // move_mask()
+        move_mask()
     }
 
     
