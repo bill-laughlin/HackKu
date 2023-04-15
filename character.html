@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Maze Game</title>
+  <style>
+    #canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="640" height="480"></canvas>
+  <script>
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+
+    let player = {
+      x: 0,
+      y: 0,
+      speed: 3, // Change this value to adjust player speed
+      width: 40, // Change this value to adjust player width
+      height: 40 // Change this value to adjust player height
+    };
+
+    function drawPlayer() {
+      let avatar = new Image();
+	avatar.src = "character.png";
+	ctx.drawImage(avatar, player.x, player.y, player.width, player.height);
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function movePlayer() {
+      if (keys[38] && player.y > 0) { // Up arrow
+        player.y -= player.speed;
+      }
+      if (keys[40] && player.y < canvas.height - player.height) { // Down arrow
+        player.y += player.speed;
+      }
+      if (keys[37] && player.x > 0) { // Left arrow
+        player.x -= player.speed;
+      }
+      if (keys[39] && player.x < canvas.width - player.width) { // Right arrow
+        player.x += player.speed;
+      }
+    }
+
+    let keys = {};
+
+    window.addEventListener('keydown', function(e) {
+      keys[e.keyCode] = true;
+    });
+
+    window.addEventListener('keyup', function(e) {
+      delete keys[e.keyCode];
+    });
+
+    function gameLoop() {
+      clearCanvas();
+      movePlayer();
+      drawPlayer();
+      requestAnimationFrame(gameLoop);
+    }
+
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+</html>
