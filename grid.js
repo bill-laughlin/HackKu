@@ -33,30 +33,13 @@ var player = {"x":0, "y":0}
 
 
 $(document).ready(function(){
-    $("#maze").css("width", size*box_dimension+"px")
-    $("#maze").css("height", size*box_dimension+"px")
-    $("#mask_maze").css("width", size*box_dimension+"px")
-    $("#mask_maze").css("height", size*box_dimension+"px")
-    var str = ""
-    for(let j = 0; j<size;j++){
-        var line = []
-        str += "<div class='row'>"
-        for (let i = 0; i < size; i++){
-            var id = "Box_" + i +"_"+j
-            line.push(id)
-          
-            str += `<div id="`+id+`" class="box"></div>`
-        }
-        str+="</div>"
-        maze.push(line)
-    }
-    $("#maze").append(str)
     start_sequence()
 })
 
 async function start_sequence() {
     const myPromise = new Promise(async (resolve, reject) => {
         // do something async
+        generateBox()
         $("#Box_"+player.x+"_"+player.y).css("background-image", "")
         $("#Box_"+start.x+"_"+start.y).css("background-color", "transparent")
         $("#Box_"+key.x+"_"+key.y).css("background-color", "transparent")
@@ -449,8 +432,7 @@ function mazeResize(newsize){
     }
     resetSize()
     size = newsize
-    generateBox()
-    resetBoard()
+    start_sequence()
 }
 
 function generateBox(){
