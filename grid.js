@@ -97,14 +97,21 @@ function check_move(x, y, direction){
 }
 
 var gen_box_size = 20
-function gen_point(){
+function gen_point_restricted(){
     return {
         "x":Math.floor(Math.random() * gen_box_size),
         "y":Math.floor(Math.random() * gen_box_size)
     }
 }
+
+function gen_point_full(){
+    return {
+        "x":Math.floor(Math.random() * size),
+        "y":Math.floor(Math.random() * size)
+    }
+}
 async function gen_start(){
-    let point = gen_point()
+    let point = gen_point_restricted()
     console.log(point)
     if(Math.random() > .5){
         point.x += 100 - gen_box_size
@@ -119,13 +126,14 @@ async function gen_start(){
 }
 
 async function gen_end(){
-    let point = gen_point()
-    console.log(Math.sqrt((point.x * start.x) + (point.y * start.y)))
-    while(Math.sqrt((point.x * start.x) + (point.y * start.y)) < 50){
-        console.log('check')
+    let point = gen_point_full()
+    var distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
+    while(distance < 75){
+        console.log(distance)
+        point = gen_point_full()
+        distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     }
     $("#Box_"+point.y+"_"+point.x).css("background-color", "green")
     exit = point
-    console.log(exit)
     
 }
