@@ -31,8 +31,29 @@
     padding: 0px;
 }
 
+.mask_animation{
+    -webkit-animation: fadeinout 2s linear forwards;
+    animation: fadeinout 2s linear forwards;
+}
+
+@-webkit-keyframes fadeinout {
+    0%{ opacity: 0; }
+    100% { opacity: 1; }
+}
+  
+@keyframes fadeinout {
+    0%{ opacity: 0; }
+    100% { opacity: 1; }
+}
+
+
+
+
+
+
 .mask{
     position:absolute;
+    
 }
 
 .maze{

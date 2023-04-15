@@ -2,10 +2,10 @@
 //https://stackoverflow.com/questions/38502/whats-a-good-algorithm-to-generate-a-maze
 
 
-var size = 20
+var size = 50
 var box_dimension = 30
 
-var vision = 3 //boxes up or down
+var vision = 7 //boxes up or down
 //if 3, total vision is a 7x7 grid (one in the center for a player)
 
 var maze = []
@@ -15,6 +15,7 @@ var exit = {"x":0, "y":0}
 var key = {"x":0, "y":0}
 var isKeyFound = false
 
+var start = false
 
 
 var visited = [];
@@ -46,15 +47,41 @@ $(document).ready(function(){
         maze.push(line)
     }
     $("#maze").append(str)
-    //gray_maze()
-    recGenerate(Math.floor(Math.random() * numcells))
-    gen_start()
-    player = start
-    gen_end()
-    gen_key()
-    // gen_mask()
-    // move_mask()
+    start_sequence()
 })
+
+async function start_sequence() {
+    const myPromise = new Promise(async (resolve, reject) => {
+        // do something async
+        await gray_maze()
+        for(let i = 0; i< size; i++){
+            for(let j = 0; j < size; j++){
+                $("#Box_"+j+"_"+i).css("background-color", "transparent")
+            }
+            await new Promise(resolve => setTimeout(resolve, 10));
+        }
+        resolve(); // fulfilled
+    }).then(function(){    
+        const newpromise = new Promise(async (resolve, reject) => {
+            // do something async
+            await recGenerate(Math.floor(Math.random() * numcells))
+            resolve(); 
+        }).then(function(){
+            gen_start()
+            gen_end()
+            gen_key()
+            start = true; //
+            gen_mask()
+            move_mask()
+            start = false;
+        })
+
+
+    });
+    
+    
+}
+
 
 async function gray_maze(){
     for(let i = 0; i< size; i++){
@@ -65,6 +92,10 @@ async function gray_maze(){
     }
 }
 
+//this function will "remove" a wall from a point (x,y) in the direction specified
+//removing the wall is done by changing the color from black to white
+//since each box has walls, it will need to remove its neighbor's wall that 
+//intersects with it
 function remove_wall(x, y, direction){ 
     if(direction == "R"){
         $("#Box_"+x+"_"+y).css("border-right", "solid white 2px")
@@ -84,6 +115,7 @@ function remove_wall(x, y, direction){
     }  
 }
 
+//this function is called from its neighbor and turns the adjacent wall white
 function remove_neighbor_wall(x, y, direction){
     if(direction == "R"){
         $("#Box_"+x+"_"+y).css("border-right", "solid white 2px")
@@ -99,7 +131,10 @@ function remove_neighbor_wall(x, y, direction){
     }
 }
 
-var gen_box_size = size*.2
+
+var gen_box_size = size*.2 // geneates a size of the corner that is 20% of the total size of the maze
+//gen_point_restricted generates a point in a box that is 20% of the in the x and
+// 20% of the size in the y of the entire box
 function gen_point_restricted(){
     return {
         "x":Math.floor(Math.random() * gen_box_size),
@@ -107,6 +142,7 @@ function gen_point_restricted(){
     }
 }
 
+//gen_point_full generates a point within the entire box
 function gen_point_full(){
     return {
         "x":Math.floor(Math.random() * size),
@@ -114,30 +150,57 @@ function gen_point_full(){
     }
 }
 
+
+//gen_start picks the starting point of the player
 function gen_start(){
+    //need to clear previous start box
     $("#Box_"+start.x+"_"+start.y).css("background-color", "transparent")
+    
+    //gen a restricted point to ensure that an end point can be far enough away
+    // from the start to make it difficult
     let point = gen_point_restricted()
+
+    //have a 50* chance to move x and y direction to other corners of the board
     if(Math.random() > .5){
         point.x += size - gen_box_size
     }
     if(Math.random() > .5){
         point.y += size - gen_box_size
     }
+
+    //update the color of the starting box
     $("#Box_"+point.x+"_"+point.y).css("background-color", "red")
+
+    //set the players starting positon
     player = {"x": point.x, "y": point.y};
+
+    //record the starting position in the global variable
     start = point
 }
 
+//gen end generates a point that is at least 75% of board's size away from the starting point
+//this is done to ensure that the board is difficult
 function gen_end(){
+    //clear the current endpoint and turn it transparent
     $("#Box_"+exit.x+"_"+exit.y).css("background-color", "transparent")
+
+    //generate a point anywhere on the board
     let point = gen_point_full()
+
+    //check the initial distance and make sure its far enough away
     var distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
+    
+    //if it is not far enough away, regenerate another point and check again
     while(distance < Math.floor(size*.75)){
         console.log(distance)
         point = gen_point_full()
         distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     }
+
+    //when a point is far enough away, change the color to green
     $("#Box_"+point.x+"_"+point.y).css("background-color", "green")
+
+    //record the ending point
     exit = point
 }
 
@@ -188,7 +251,7 @@ function isValid(newcell){
     return !visited[newcell]
 }
 
-function recGenerate(cell){
+async function recGenerate(cell){
     var alphaDirections = ["R", "L", "U", "D"]
     var arrayDirections = [0, 1, 2, 3] // R, L, U, D
     var randDirections = []
@@ -207,9 +270,13 @@ function recGenerate(cell){
         if(isValid(newcell)){
             var x = cell % size
             var y = (cell - x) / size
-            remove_wall(x, y, alphaDirections[direction])            
+            remove_wall(x, y, alphaDirections[direction])
+
             visited[newcell] = true // mark newcell as visited
             recGenerate(newcell) // recursively move to newcell
+
+            
+            
         }
     }
 }
@@ -258,7 +325,7 @@ document.addEventListener('keydown', function(event) {
 
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
         tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-        move_mask()
+        // move_mask()
     }
 
     
@@ -276,26 +343,53 @@ function visitedArrayRefresh(){
     }
 }
 
-function gen_mask(){
-    $("#mask_maze").empty()
-    var str = ""
-    for(let j = 0; j<size;j++){
-        var line = []
-        str += "<div class='row'>"
-        for (let i = 0; i < size; i++){
-            var id = "Mask_" + i +"_"+j
-            line.push(id)
-          
-            str += `<div id="`+id+`" class="mask_box"></div>`
-        }
-        str+="</div>"
-        maze.push(line)
+
+
+
+function mazeResize(newsize){
+    if (newsize == size){
+        return
     }
-    $("#mask_maze").append(str)
+    size = newsize
+    // update visited array
+    // generage new maze
 }
 
+//this function will generate a board ontop of the maze that is positioned identically
+//this is done to be able to control which blocks are shown and which are not
+function gen_mask(){
+    //clear out the previous mask
+    $("#mask_maze").empty()
+
+    //start a html string to append to the mask
+    var str = ""
+
+    //loop through and create size^2 boxes
+    for(let j = 0; j<size;j++){
+        str += "<div class='row'>" //delcare a row
+        for (let i = 0; i < size; i++){
+            var id = "Mask_" + i +"_"+j //genearte a unique id
+            
+            str += `<div id="`+id+`" class="mask_box`
+            if(start == true){ //if this is a start sequence, add the mask animation to fade in
+                str+= " mask_animation"
+            }
+            str+= `"></div>`
+        }
+        str+="</div>"
+    }
+    //append the mask object to the mask div
+    $("#mask_maze").append(str)
+
+}
+
+//this is called every time that the player moves
+//it will make the boxes around the player transpannt in the mask
+//this simulates a keyhole view
 function move_mask(){
-    gen_mask()
+    //gen_mask() //need to genearte a new mask if player wants a real challange
+    //this will allow only the boxes around the player to be visible (not remember where he's been)
+    
     console.log(player)
     for(let i = player.x-vision;i< player.x+(vision+1); i++){
         for(let j = player.y-vision; j< player.y+(vision+1); j++){
@@ -355,4 +449,13 @@ function generateBox(){
         maze.push(line)
     }
     $("#maze").append(str)
+}
+
+function directions(){
+    alert(`Welcome to the maze!\n
+    \nWhen you are ready, select 'Generate New Maze'.\n
+    \nIf you would like to generate a new maze before you finish, select 'Generate New Maze'.\n
+    \nNavigate to the exit using the arrow keys.\n
+    \nTo make exit available, you must find and collect the key."
+    `)
 }
