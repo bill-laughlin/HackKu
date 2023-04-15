@@ -253,7 +253,7 @@ function move_mask(){
     console.log(player_position)
     for(let i = player_position.x-vision;i< player_position.x+(vision+1); i++){
         for(let j = player_position.y-vision; j< player_position.y+(vision+1); j++){
-            $("#Mask_"+j+"_"+i).css("background-color", "transparent")
+            $("#Mask_"+i+"_"+j).css("background-color", "transparent")
         }
     }
 }
