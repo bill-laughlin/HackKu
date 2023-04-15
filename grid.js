@@ -3,7 +3,7 @@
 
 
 
-var size = 5
+var size = 20
 
 
 var box_dimension = 30
@@ -57,7 +57,6 @@ async function start_sequence() {
     }).then(function(){    
         const newpromise = new Promise(async (resolve, reject) => {
             // do something async
-            
             await recGenerate(Math.floor(Math.random() * numcells))
             resolve(); 
         }).then(function(){ 
