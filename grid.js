@@ -179,3 +179,11 @@ function recGenerate(cell){
         }
     }
 }
+
+function visitedArrayRefresh(){
+    visited.length = 0 // remove all values
+    var numcells = size * size  // might need to have another here function for size changes
+    for (var i = 0; i < numcells; i++) {
+        visited.push(false);
+    }
+}
