@@ -288,7 +288,7 @@ document.addEventListener('keydown', function(event) {
         
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
         tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-        move_mask()
+        // move_mask()
     }
 
     
@@ -410,4 +410,13 @@ function generateBox(){
         maze.push(line)
     }
     $("#maze").append(str)
+}
+
+function directions(){
+    alert(`Welcome to the maze!\n
+    \nWhen you are ready, select 'Generate New Maze'.\n
+    \nIf you would like to generate a new maze before you finish, select 'Generate New Maze'.\n
+    \nNavigate to the exit using the arrow keys.\n
+    \nTo make exit available, you must find and collect the key."
+    `)
 }
