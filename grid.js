@@ -2,7 +2,7 @@
 //https://stackoverflow.com/questions/38502/whats-a-good-algorithm-to-generate-a-maze
 
 
-var size = 50
+var size = 20
 var box_dimension = 30
 
 var vision = 7 //boxes up or down
@@ -325,14 +325,14 @@ document.addEventListener('keydown', function(event) {
 
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
         tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-        // move_mask()
+        move_mask()
     }
 
     
 
     tile = document.getElementById("Box_"+player.x+"_"+player.y)
     tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-    // move_mask()
+    move_mask()
 });
 
 function visitedArrayRefresh(){
