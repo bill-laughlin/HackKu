@@ -7,6 +7,16 @@ var maze = []
 var parents = []
 var start
 var exit
+
+
+var visited = [];
+var numcells = size * size    
+for (var i = 0; i < numcells; i++) {
+    visited.push(false);
+}
+
+
+
 $(document).ready(function(){
     $("#maze").css("min-width", size*20+"px")
     var str = ""
@@ -31,7 +41,8 @@ $(document).ready(function(){
         maze.push(line)
     }
     $("#maze").append(str)
-    gray_maze()
+    //gray_maze()
+    recGenerate(Math.floor(Math.random() * numcells))
     gen_start()
     gen_end()
 })
@@ -135,4 +146,95 @@ function gen_end(){
     $("#Box_"+point.y+"_"+point.x).css("background-color", "green")
     exit = point
     
+}
+
+
+
+
+
+
+
+
+
+
+function findCell(cell, direction){
+    var numcols = size 
+    var num = -1
+    if(direction == 0){ // Right
+        num = cell + 1
+    }
+    else if(direction == 1){ // Left
+        num = cell - 1
+    }
+    else if(direction == 2){ // Up
+        num = cell - numcols
+    }
+    else{ // Down
+        num = cell + numcols
+    }
+
+    // error check for going off the grid
+    if(num % numcols == 0){ // Right border
+        num = -1
+    }
+    else if(num < 0){ // Top border
+        num = -1
+    }
+    else if(num > numcells-1){ // Bottom border
+        num = -1 
+    }
+    else if(((num+1) % numcols) == 0){ // Left border
+        num = -1
+    }
+    return num
+}
+
+function valid(newcell){
+    // return boolean if it is a valid move
+    // values of -1 are off the grid (assigned as invalid in findCell)
+    if(newcell == -1){
+        return false
+    }
+    return !visited[newcell]
+}
+
+
+function recGenerate(cell){
+    let arrayDirections = [0, 1, 2, 3] // R, L, U, D
+    let randDirections = []
+    
+    // randomize order of directions to visit
+    for(let i = 0; i < 4; i++){
+        var rand = Math.floor(Math.random() * 4);
+        var value = arrayDirections[rand]
+        randDirections.push(value)
+        arrayDirections.splice(rand, 1)
+    }
+    
+    for(let i = 0; i < 4; i++){
+        var direction = randDirections[i] // R, L, U, D
+        var newcell = findCell(cell, direction) // get newcell's number
+        if(valid(newcell)){
+            // remove walls between src & dst cells
+            // coordinates of src & direction of dst
+            var x = cell % size
+            var y = (cell - x) / size
+
+            if(direction == 0){ // Right
+                remove_border(y, x, "R")
+            }
+            else if(direction == 1){ // Left
+                remove_border(y, x, "L")
+            }
+            else if(direction == 2){ // Up
+                remove_border(y, x, "U")
+            }
+            else{ // Down
+                remove_border(y, x, "D")
+            }
+            
+            visited[newcell] = true // mark newcell as visited
+            recGenerate(newcell) // recursively move to newcell
+        }
+    }
 }
