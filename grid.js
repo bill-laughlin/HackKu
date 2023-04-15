@@ -165,7 +165,7 @@ function findCell(cell, direction){
     }
 
     // error check for going off the grid
-    if(num % numcols == 0){ // Right border
+    if(num % numcols == 0 && direction == 0){ // Right border
         num = -1
     }
     else if(num < 0){ // Top border
@@ -174,7 +174,7 @@ function findCell(cell, direction){
     else if(num > numcells-1){ // Bottom border
         num = -1 
     }
-    else if(((num+1) % numcols) == 0){ // Left border
+    else if(((num+1) % numcols) == 0 && direction == 1){ // Left border
         num = -1
     }
     return num
