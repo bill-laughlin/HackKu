@@ -13,6 +13,7 @@ var parents = []
 var start = {"x":0, "y":0}
 var exit = {"x":0, "y":0}
 var key = {"x":0, "y":0}
+var isKeyFound = false
 
 
 
@@ -212,7 +213,20 @@ function recGenerate(cell){
         }
     }
 }
+function checkGoal(){
+    if (player.x == key.x && player.y == key.y){
+        isKeyFound = true
+    }
+    if (isKeyFound == true && player.x == exit.x && player.y == exit.y){
+        celebration()
+    }
+}
 
+function celebration(){
+    // confetti
+    // up level
+    resetBoard()
+}
 
 document.addEventListener('keydown', function(event) {
     if (event.keyCode >= 37 && event.keyCode <= 40) {
@@ -240,6 +254,8 @@ document.addEventListener('keydown', function(event) {
             player.x++
         }
         
+        checkGoal()
+
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
         tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
         move_mask()
@@ -299,6 +315,7 @@ function resetBoard(){
     gen_start()
     gen_end()
     gen_key()
+    isKeyFound = false
 }
 
 function resetSize(){
