@@ -212,7 +212,7 @@ function gen_key(){
         point = gen_point_full()
         distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     }
-    $("#Box_"+point.x+"_"+point.y).css("background-image", "url('key_icon.jpg')")
+    $("#Box_"+point.x+"_"+point.y).css("background-image", "url('key_icon2.png')")
 
     if (start != point && exit != point){ 
         key = point
