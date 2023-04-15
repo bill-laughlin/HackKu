@@ -473,6 +473,7 @@ function generateBox(){
     }
     $("#maze").append(str)
 }
+aosdifnoinsdf
 
 function directions(){
     alert(`Welcome to the maze!\n
