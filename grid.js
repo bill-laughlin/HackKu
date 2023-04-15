@@ -60,6 +60,7 @@ async function start_sequence() {
             await recGenerate(Math.floor(Math.random() * numcells))
             resolve(); 
         }).then(function(){ 
+            $("#Box_"+player.x+"_"+player.y).css("background-image", "")
             gen_start()
             gen_end()
             gen_key()
@@ -330,12 +331,6 @@ document.addEventListener('keydown', function(event) {
         tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
         move_mask()
     }
-
-    
-
-    tile = document.getElementById("Box_"+player.x+"_"+player.y)
-    tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-    move_mask()
 });
 
 function visitedArrayRefresh(){
