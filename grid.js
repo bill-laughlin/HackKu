@@ -3,7 +3,7 @@
 
 
 
-var size = 20
+var size = 5
 
 
 var box_dimension = 30
@@ -37,6 +37,7 @@ $(document).ready(function(){
 })
 
 async function start_sequence() {
+    
     const myPromise = new Promise(async (resolve, reject) => {
         // do something async
         generateBox()
@@ -70,6 +71,7 @@ async function start_sequence() {
             isKeyFound = false
             start = false;
             document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')"
+            stopConfetti()
         })
 
 
@@ -293,9 +295,11 @@ function checkGoal(){
     }
 }
 
-function celebration(){
+async function celebration(){
     // confetti
     // up level
+    startConfetti()
+    await new Promise(resolve => setTimeout(resolve, 10000))
     start_sequence()
 }
 
