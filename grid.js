@@ -51,8 +51,8 @@ $(document).ready(function(){
     player_position = start
     gen_end()
 
-    gen_mask()
-    move_mask()
+    // gen_mask()
+    // move_mask()
 })
 
 async function gray_maze(){
@@ -114,7 +114,7 @@ function gen_point_full(){
 }
 
 function gen_start(){
-    $("#Box_"+start.y+"_"+start.x).css("background-color", "transparent")
+    $("#Box_"+start.x+"_"+start.y).css("background-color", "transparent")
     let point = gen_point_restricted()
     if(Math.random() > .5){
         point.x += size - gen_box_size
@@ -128,7 +128,7 @@ function gen_start(){
 }
 
 function gen_end(){
-    $("#Box_"+exit.y+"_"+exit.x).css("background-color", "transparent")
+    $("#Box_"+exit.x+"_"+exit.y).css("background-color", "transparent")
     let point = gen_point_full()
     var distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     while(distance < Math.floor(size*.75)){
