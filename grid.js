@@ -22,10 +22,19 @@ $(document).ready(function(){
         maze.push(line)
     }
     $("#maze").append(str)
-    console.log("READY")
-    test()
-    console.log("TESTS")
+    gray_maze()
+    // test()
+    gen_start()
 })
+
+async function gray_maze(){
+    for(let i = 0; i< size; i++){
+        for(let j = 0; j < size; j++){
+            $("#Box_"+j+"_"+i).css("background-color", "gray")
+        }
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+}
 
 function test(){
     for(let i = 0; i < size; i++){
@@ -98,7 +107,18 @@ function check_move(x, y, direction){
         return false
     }
 }
-
+function gen_point(){
+    return {
+        "x":Math.floor(Math.random() * size),
+        "y":Math.floor(Math.random() * size)
+    }
+}
 function gen_start(){
+    let point = gen_point()
+    while(point.x < 89 && point.x > 9  && point.y < 89 && point.y > 9){
+        point = gen_point()
+        console.log(point.x, point.y)
+    }
+    console.log(point.x, point.y)
     
 }
