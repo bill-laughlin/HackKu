@@ -195,3 +195,14 @@ function visitedArrayRefresh(){
         visited.push(false);
     }
 }
+
+function resetBoard(){
+	visitedArrayRefresh()
+	for(let i = 0; i< size; i++){
+        for(let j = 0; j < size; j++){
+            $("#Box_"+j+"_"+i).css("border", "2px solid black")
+        }
+        
+    }
+    recGenerate(Math.floor(Math.random() * numcells))
+}
