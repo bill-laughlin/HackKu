@@ -4,7 +4,7 @@
 
 var size = 100
 var maze = []
-var start = {}
+var start
 var exit = {}
 $(document).ready(function(){
     $("#maze").css("min-width", size*20+"px")
@@ -13,16 +13,18 @@ $(document).ready(function(){
         var line = []
         str += "<div class='row'>"
         for (let i = 0; i < size; i++){
-            var id = "Box_" + i +"_"+j
+            var box = {}
+            box.id = "Box_" + i +"_"+j
+            box.value = -1
             line.push(id)
           
-            str += `<div id="`+id+`" class="box"></div>`
+            str += `<div id="`+box.id+`" class="box"></div>`
         }
         str+="</div>"
         maze.push(line)
     }
     $("#maze").append(str)
-    gray_maze()
+    // gray_maze()
     // test()
     gen_start()
 })
@@ -107,18 +109,25 @@ function check_move(x, y, direction){
         return false
     }
 }
+
+var gen_box_size = 20
 function gen_point(){
     return {
-        "x":Math.floor(Math.random() * size),
-        "y":Math.floor(Math.random() * size)
+        "x":Math.floor(Math.random() * gen_box_size),
+        "y":Math.floor(Math.random() * gen_box_size)
     }
 }
 function gen_start(){
     let point = gen_point()
-    while(point.x < 89 && point.x > 9  && point.y < 89 && point.y > 9){
-        point = gen_point()
-        console.log(point.x, point.y)
+    console.log(point)
+    if(Math.random() > .5){
+        point.x += 100 - gen_box_size
     }
-    console.log(point.x, point.y)
+    if(Math.random() > .5){
+        point.y += 100 - gen_box_size
+    }
+    $("#Box_"+point.y+"_"+point.x).css("background-color", "red")
+    start = point
+    console.log(start)
     
 }
