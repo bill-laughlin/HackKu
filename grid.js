@@ -7,8 +7,8 @@ var box_dimension = 30
 
 var maze = []
 var parents = []
-var start
-var exit
+var start = {"x":0, "y":0}
+var exit = {"x":0, "y":0}
 
 
 
@@ -111,6 +111,7 @@ function gen_point_full(){
 }
 
 function gen_start(){
+    $("#Box_"+start.y+"_"+start.x).css("background-color", "transparent")
     let point = gen_point_restricted()
     if(Math.random() > .5){
         point.x += size - gen_box_size
@@ -123,6 +124,7 @@ function gen_start(){
 }
 
 function gen_end(){
+    $("#Box_"+exit.y+"_"+exit.x).css("background-color", "transparent")
     let point = gen_point_full()
     var distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     while(distance < Math.floor(size*.75)){
@@ -139,7 +141,7 @@ function rem_start(){
 }
 
 function rem_end(){
-    
+
 }
 
 function findNewCell(cell, direction){
@@ -212,7 +214,9 @@ function resetBoard(){
         }
         
     }
+    // rem_start()
+    // rem_end()
     recGenerate(Math.floor(Math.random() * numcells))
-    //gen_start()
-    //gen_end()
+    gen_start()
+    gen_end()
 }
