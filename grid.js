@@ -66,6 +66,7 @@ async function start_sequence() {
             start = true; //
             gen_mask()
             move_mask()
+            isKeyFound = false
             start = false;
             document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')"
         })
