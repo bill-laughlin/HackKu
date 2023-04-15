@@ -24,7 +24,7 @@
                 <button class="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded" onclick="directions()">
                   Need help?
                 </button>               
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="resetBoard()">
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="resetBoard()">
                     Generate New Maze
                 </button>
                 <div class="dropdown">
@@ -33,6 +33,15 @@
                     <a href="#" onclick="mazeResize(20)">20 x 20</a>
                     <a href="#" onclick="mazeResize(30)">30 x 30</a>
                     <a href="#" onclick="mazeResize(40)">40 x 40</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Visability↓</button>
+                  <div class="dropdown-content">
+                    <a href="#" onclick="vision = 5">1</a>
+                    <a href="#" onclick="vision = 10">2</a>
+                    <a href="#" onclick="vision = 15">3</a>
+                    <a href="#" onclick="toggleVisability()">Full</a>
                   </div>
                 </div>
                 
