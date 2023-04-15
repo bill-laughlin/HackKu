@@ -230,6 +230,16 @@ function visitedArrayRefresh(){
 }
 
 
+function mazeResize(newsize){
+    if (newsize == size){
+        return
+    }
+    size = newsize
+    // update visited array
+    // generage new maze
+}
+
+
 function gen_mask(){
     $("#mask_maze").empty()
     var str = ""
