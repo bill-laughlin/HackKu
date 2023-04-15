@@ -83,8 +83,8 @@ async function start_sequence() {
             start = true; //
             gen_mask()
             move_mask()
-            document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')"
             start = false;
+            document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')"
         })
 
 
@@ -376,8 +376,10 @@ function gen_mask(){
     $("#mask_maze").empty()
     if(fullVision == true)
     {
+        console.log("return")
         return
     }
+    console.log("run mask")
 
     //start a html string to append to the mask
     var str = ""
