@@ -14,6 +14,7 @@ var start = {"x":0, "y":0}
 var exit = {"x":0, "y":0}
 var key = {"x":0, "y":0}
 var isKeyFound = false
+var fullVision = false
 
 var start = false
 
@@ -343,9 +344,6 @@ function visitedArrayRefresh(){
     }
 }
 
-
-
-
 function mazeResize(newsize){
     if (newsize == size){
         return
@@ -360,6 +358,10 @@ function mazeResize(newsize){
 function gen_mask(){
     //clear out the previous mask
     $("#mask_maze").empty()
+    if(fullVision == true)
+    {
+        return
+    }
 
     //start a html string to append to the mask
     var str = ""
@@ -381,6 +383,21 @@ function gen_mask(){
     //append the mask object to the mask div
     $("#mask_maze").append(str)
 
+}
+
+function toggleVisability(level){
+    var levelArr = [0, 15, 10, 5]
+
+    vision = levelArr[level]
+    if(level != 0)
+    {
+        fullVision = false
+    }
+    else
+    {
+        fullVision = true
+    }
+    start_sequence()
 }
 
 //this is called every time that the player moves
