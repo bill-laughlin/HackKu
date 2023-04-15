@@ -5,12 +5,15 @@
 var size = 20
 var box_dimension = 30
 
+var vision = 3 //boxes up or down
+//if 3, total vision is a 7x7 grid (one in the center for a player)
+
 var maze = []
 var parents = []
 var start
 var exit
 
-
+var player_position
 
 
 var visited = [];
@@ -25,22 +28,14 @@ $(document).ready(function(){
     $("#mask_maze").css("width", size*box_dimension+"px")
     $("#mask_maze").css("height", size*box_dimension+"px")
     var str = ""
-    var iter = 0;
     for(let j = 0; j<size;j++){
         var line = []
         str += "<div class='row'>"
         for (let i = 0; i < size; i++){
-            iter++
             var id = "Box_" + i +"_"+j
-            var box = {
-                html_id:"",
-                value:-1,
-                id: iter
-            }
-            box.html_id = id
-            line.push(box)
+            line.push(id)
           
-            str += `<div id="`+box.html_id+`" class="box"></div>`
+            str += `<div id="`+id+`" class="box"></div>`
         }
         str+="</div>"
         maze.push(line)
@@ -49,7 +44,11 @@ $(document).ready(function(){
     //gray_maze()
     recGenerate(Math.floor(Math.random() * numcells))
     gen_start()
+    player_position = start
     gen_end()
+
+    gen_mask()
+    move_mask()
 })
 
 async function gray_maze(){
@@ -196,6 +195,35 @@ function visitedArrayRefresh(){
     }
 }
 
+
+function gen_mask(){
+    $("#mask_maze").empty()
+    var str = ""
+    for(let j = 0; j<size;j++){
+        var line = []
+        str += "<div class='row'>"
+        for (let i = 0; i < size; i++){
+            var id = "Mask_" + i +"_"+j
+            line.push(id)
+          
+            str += `<div id="`+id+`" class="mask_box"></div>`
+        }
+        str+="</div>"
+        maze.push(line)
+    }
+    $("#mask_maze").append(str)
+}
+
+function move_mask(){
+    gen_mask()
+    console.log(player_position)
+    for(let i = player_position.x-vision;i< player_position.x+(vision+1); i++){
+        for(let j = player_position.y-vision; j< player_position.y+(vision+1); j++){
+            $("#Mask_"+j+"_"+i).css("background-color", "transparent")
+        }
+    }
+}
+
 function resetBoard(){
 	visitedArrayRefresh()
 	for(let i = 0; i< size; i++){
@@ -206,3 +234,4 @@ function resetBoard(){
     }
     recGenerate(Math.floor(Math.random() * numcells))
 }
+
