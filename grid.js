@@ -148,15 +148,6 @@ function gen_end(){
     
 }
 
-
-
-
-
-
-
-
-
-
 function findCell(cell, direction){
     var numcols = size 
     var num = -1
@@ -198,14 +189,13 @@ function valid(newcell){
     return !visited[newcell]
 }
 
-
 function recGenerate(cell){
     let arrayDirections = [0, 1, 2, 3] // R, L, U, D
     let randDirections = []
     
     // randomize order of directions to visit
     for(let i = 0; i < 4; i++){
-        var rand = Math.floor(Math.random() * 4);
+        var rand = Math.floor(Math.random() * arrayDirections.length);
         var value = arrayDirections[rand]
         randDirections.push(value)
         arrayDirections.splice(rand, 1)
@@ -221,16 +211,16 @@ function recGenerate(cell){
             var y = (cell - x) / size
 
             if(direction == 0){ // Right
-                remove_border(y, x, "R")
+                remove_border(x, y, "R")
             }
             else if(direction == 1){ // Left
-                remove_border(y, x, "L")
+                remove_border(x, y, "L")
             }
             else if(direction == 2){ // Up
-                remove_border(y, x, "U")
+                remove_border(x, y, "U")
             }
             else{ // Down
-                remove_border(y, x, "D")
+                remove_border(x, y, "D")
             }
             
             visited[newcell] = true // mark newcell as visited
