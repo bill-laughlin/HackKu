@@ -2,8 +2,9 @@
 //https://stackoverflow.com/questions/38502/whats-a-good-algorithm-to-generate-a-maze
 
 
-var size = 100
+var size = 20
 var maze = []
+var parents = []
 var start
 var exit
 $(document).ready(function(){
@@ -30,7 +31,7 @@ $(document).ready(function(){
         maze.push(line)
     }
     $("#maze").append(str)
-    // gray_maze()
+    gray_maze()
     gen_start()
     gen_end()
 })
@@ -96,7 +97,7 @@ function check_move(x, y, direction){
     }
 }
 
-var gen_box_size = 20
+var gen_box_size = size*.2
 function gen_point_restricted(){
     return {
         "x":Math.floor(Math.random() * gen_box_size),
@@ -110,25 +111,23 @@ function gen_point_full(){
         "y":Math.floor(Math.random() * size)
     }
 }
-async function gen_start(){
+function gen_start(){
     let point = gen_point_restricted()
-    console.log(point)
     if(Math.random() > .5){
-        point.x += 100 - gen_box_size
+        point.x += size - gen_box_size
     }
     if(Math.random() > .5){
-        point.y += 100 - gen_box_size
+        point.y += size - gen_box_size
     }
     $("#Box_"+point.y+"_"+point.x).css("background-color", "red")
     start = point
-    console.log(start)
     
 }
 
-async function gen_end(){
+function gen_end(){
     let point = gen_point_full()
     var distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
-    while(distance < 75){
+    while(distance < Math.floor(size*.75)){
         console.log(distance)
         point = gen_point_full()
         distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
