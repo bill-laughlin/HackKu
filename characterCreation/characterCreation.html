@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link type="text/css" href="index.css" rel="stylesheet"/>
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+
+    <div id="cc-main">
+        <div id="cc-col-left" class="cc-col">
+            <button id="cc-btn-eyebrows-left" class="cc-arrow-left" onclick="characterPreviewChange('eyebrows', -1)"><img src="arrow.png" height="10px"></button>
+            <button id="cc-btn-eyes-left" onclick="characterPreviewChange('eyes', -1)"><img src="arrow.png" height="10px"></button>
+            <button id="cc-btn-glasses-left" onclick="characterPreviewChange('glasses', -1)"><img src="arrow.png" height="10px"></button>
+            <button id="cc-btn-mouth-left" onclick="characterPreviewChange('mouth', -1)"><img src="arrow.png" height="10px"></button>
+        </div>
+        <img id="cc-character-preview" src="" height="300px">
+        <div id="cc-col-right" class="cc-col">
+            <button id="cc-btn-eyebrows-right" onclick="characterPreviewChange('eyebrows', 1)"><img src="arrow.png" height="10px"></button>
+            <button id="cc-btn-eyes-right" onclick="characterPreviewChange('eyes', 1)"><img src="arrow.png" height="10px"></button>
+            <button id="cc-btn-glasses-right" onclick="characterPreviewChange('glasses', 1)"><img src="arrow.png" height="10px"></button>
+            <button id="cc-btn-mouth-right" onclick="characterPreviewChange('mouth', 1)"><img src="arrow.png" height="10px"></button>
+            <button onclick="characterRandomChange()">rand</button>
+            <input id="cc-color" type="color" onchange="characterPreviewChange('tone', this.value)">
+        </div>
+    </div>
+</html>

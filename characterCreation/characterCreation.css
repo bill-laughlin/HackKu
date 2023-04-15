@@ -1,0 +1,9 @@
+#cc-main {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.cc-col {
+    display: flex;
+    flex-direction: column;
+}
