@@ -23,7 +23,7 @@
 
 
 .mask_box{
-    background-color: black;
+    background-color: transparent;
     width: 30px;
     height: 30px;
     float: left;
