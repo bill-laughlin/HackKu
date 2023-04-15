@@ -29,17 +29,17 @@
         </div>
           
         <div class="block lg:hidden">
-            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                Restart
+        <div class="block">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="resetBoard()">
+                Generate New Maze
             </button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Generate Maze
-            </button>
+        </div>
         </div>
       </nav>
       
-    <div class="content-center">
-        <div id="maze"></div>
+    <div class="maze_container">
+        <div id="maze" class="maze"></div>
+        <div id="mask_maze" class="mask"></div>
     </div>
 </body>
 </html>
