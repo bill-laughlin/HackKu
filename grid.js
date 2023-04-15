@@ -165,7 +165,7 @@ function gen_start(){
     }
 
     //update the color of the starting box
-    $("#Box_"+point.x+"_"+point.y).css("background-color", "red")
+    // $("#Box_"+point.x+"_"+point.y).css("background-color", "red")
 
     //set the players starting positon
     player = {"x": point.x, "y": point.y};
