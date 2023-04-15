@@ -1,5 +1,11 @@
-var size = 30
+//https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
+
+
+
+var size = 100
 var maze = []
+var start = {}
+var exit = {}
 $(document).ready(function(){
     $("#maze").css("min-width", size*20+"px")
     var str = ""
@@ -16,7 +22,6 @@ $(document).ready(function(){
         maze.push(line)
     }
     $("#maze").append(str)
-    $("#Box_1_1").css('background', 'red')
     console.log("READY")
     test()
     console.log("TESTS")
@@ -74,4 +79,26 @@ function remove_neighbor_border(x, y, direction){
     else if(direction == "D" && y < size){
         $("#Box_"+x+"_"+y).css("border-bottom", "solid white 2px")
     }
+}
+
+function check_move(x, y, direction){
+    if(direction == "R" && x+1 < size){
+        return true
+    }
+    else if(direction == "L" && x > 0){
+        return true
+    }
+    else if(direction == "U" && y > 0){
+        return true
+    }
+    else if(direction == "D" && y+1 < size){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+function gen_start(){
+    
 }
