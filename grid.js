@@ -5,12 +5,15 @@
 var size = 20
 var box_dimension = 30
 
+var vision = 3 //boxes up or down
+//if 3, total vision is a 7x7 grid (one in the center for a player)
+
 var maze = []
 var parents = []
 var start = {"x":0, "y":0}
 var exit = {"x":0, "y":0}
 
-
+var player_position
 
 
 var visited = [];
@@ -19,28 +22,24 @@ for (var i = 0; i < numcells; i++) {
     visited.push(false);
 }
 
+var player = {"x":0, "y":0}
+
+
+
 $(document).ready(function(){
     $("#maze").css("width", size*box_dimension+"px")
     $("#maze").css("height", size*box_dimension+"px")
     $("#mask_maze").css("width", size*box_dimension+"px")
     $("#mask_maze").css("height", size*box_dimension+"px")
     var str = ""
-    var iter = 0;
     for(let j = 0; j<size;j++){
         var line = []
         str += "<div class='row'>"
         for (let i = 0; i < size; i++){
-            iter++
             var id = "Box_" + i +"_"+j
-            var box = {
-                html_id:"",
-                value:-1,
-                id: iter
-            }
-            box.html_id = id
-            line.push(box)
+            line.push(id)
           
-            str += `<div id="`+box.html_id+`" class="box"></div>`
+            str += `<div id="`+id+`" class="box"></div>`
         }
         str+="</div>"
         maze.push(line)
@@ -49,7 +48,11 @@ $(document).ready(function(){
     //gray_maze()
     recGenerate(Math.floor(Math.random() * numcells))
     gen_start()
+    player_position = start
     gen_end()
+
+    gen_mask()
+    move_mask()
 })
 
 async function gray_maze(){
@@ -119,7 +122,8 @@ function gen_start(){
     if(Math.random() > .5){
         point.y += size - gen_box_size
     }
-    $("#Box_"+point.y+"_"+point.x).css("background-color", "red")
+    $("#Box_"+point.x+"_"+point.y).css("background-color", "red")
+    player = {"x": point.x, "y": point.y};
     start = point
 }
 
@@ -132,7 +136,7 @@ function gen_end(){
         point = gen_point_full()
         distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     }
-    $("#Box_"+point.y+"_"+point.x).css("background-color", "green")
+    $("#Box_"+point.x+"_"+point.y).css("background-color", "green")
     exit = point
 }
 
@@ -198,11 +202,79 @@ function recGenerate(cell){
     }
 }
 
+
+document.addEventListener('keydown', function(event) {
+    var tile = document.getElementById("Box_"+player.x+"_"+player.y)
+    const borderOpen = "rgb(255, 255, 255)";
+    
+    tile.style.backgroundImage = "";
+
+    computedStyle = window.getComputedStyle(document.getElementById("Box_"+player.x+"_"+player.y));
+    const borderTopColor = computedStyle.getPropertyValue('border-top-color');
+    const borderRightColor = computedStyle.getPropertyValue('border-right-color');
+    const borderBottomColor = computedStyle.getPropertyValue('border-bottom-color');
+    const borderLeftColor = computedStyle.getPropertyValue('border-left-color');
+    console.log(borderTopColor+" "+borderBottomColor+" "+borderLeftColor+" "+borderRightColor);
+
+    if (event.code === 'ArrowUp' && borderTopColor == borderOpen) {
+        player.y--
+    } else if (event.code === 'ArrowDown' && borderBottomColor == borderOpen) {
+        player.y++
+    } else if (event.code === 'ArrowLeft' && borderLeftColor == borderOpen) {
+        player.x--
+    } else if (event.code === 'ArrowRight' && borderRightColor == borderOpen) {
+        player.x++
+    }
+    
+    tile = document.getElementById("Box_"+player.x+"_"+player.y)
+    tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
+
+});
+
 function visitedArrayRefresh(){
     visited.length = 0 // remove all values
     var numcells = size * size  // might need to have another here function for size changes
     for (var i = 0; i < numcells; i++) {
         visited.push(false);
+    }
+}
+
+
+function mazeResize(newsize){
+    if (newsize == size){
+        return
+    }
+    size = newsize
+    // update visited array
+    // generage new maze
+}
+
+
+function gen_mask(){
+    $("#mask_maze").empty()
+    var str = ""
+    for(let j = 0; j<size;j++){
+        var line = []
+        str += "<div class='row'>"
+        for (let i = 0; i < size; i++){
+            var id = "Mask_" + i +"_"+j
+            line.push(id)
+          
+            str += `<div id="`+id+`" class="mask_box"></div>`
+        }
+        str+="</div>"
+        maze.push(line)
+    }
+    $("#mask_maze").append(str)
+}
+
+function move_mask(){
+    gen_mask()
+    console.log(player_position)
+    for(let i = player_position.x-vision;i< player_position.x+(vision+1); i++){
+        for(let j = player_position.y-vision; j< player_position.y+(vision+1); j++){
+            $("#Mask_"+i+"_"+j).css("background-color", "transparent")
+        }
     }
 }
 
@@ -220,3 +292,5 @@ function resetBoard(){
     gen_start()
     gen_end()
 }
+
+
