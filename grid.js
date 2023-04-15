@@ -308,7 +308,11 @@ document.addEventListener('keydown', function(event) {
         var tile = document.getElementById("Box_"+player.x+"_"+player.y)
         const borderOpen = "rgb(255, 255, 255)";
         
-        tile.style.backgroundImage = "";
+        if (player.x == exit.x && player.y == exit.y) {
+            tile.style.backgroundImage = "url('door_icon.png')";
+        } else {
+            tile.style.backgroundImage = "";
+        }
 
         computedStyle = window.getComputedStyle(document.getElementById("Box_"+player.x+"_"+player.y));
         const borderTopColor = computedStyle.getPropertyValue('border-top-color');
