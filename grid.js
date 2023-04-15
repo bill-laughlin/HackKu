@@ -1,5 +1,5 @@
 //https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
-
+//https://stackoverflow.com/questions/38502/whats-a-good-algorithm-to-generate-a-maze
 
 
 var size = 100
