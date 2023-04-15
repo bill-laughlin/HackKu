@@ -60,6 +60,7 @@ async function start_sequence() {
             await recGenerate(Math.floor(Math.random() * numcells))
             resolve(); 
         }).then(function(){ 
+            $("#Box_"+player.x+"_"+player.y).css("background-image", "")
             gen_start()
             gen_end()
             gen_key()
@@ -313,13 +314,13 @@ document.addEventListener('keydown', function(event) {
         const borderLeftColor = computedStyle.getPropertyValue('border-left-color');
         console.log(borderTopColor+" "+borderBottomColor+" "+borderLeftColor+" "+borderRightColor);
 
-        if (event.code === 'ArrowUp' && borderTopColor == borderOpen) {
+        if (event.code === 'ArrowUp' ){//&& borderTopColor == borderOpen) {
             player.y--
-        } else if (event.code === 'ArrowDown' && borderBottomColor == borderOpen) {
+        } else if (event.code === 'ArrowDown' ){//&& borderBottomColor == borderOpen) {
             player.y++
-        } else if (event.code === 'ArrowLeft' && borderLeftColor == borderOpen) {
+        } else if (event.code === 'ArrowLeft' ){//&& borderLeftColor == borderOpen) {
             player.x--
-        } else if (event.code === 'ArrowRight' && borderRightColor == borderOpen) {
+        } else if (event.code === 'ArrowRight' ){//&& borderRightColor == borderOpen) {
             player.x++
         }
         
@@ -329,12 +330,6 @@ document.addEventListener('keydown', function(event) {
         tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
         move_mask()
     }
-
-    
-
-    tile = document.getElementById("Box_"+player.x+"_"+player.y)
-    tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-    move_mask()
 });
 
 function visitedArrayRefresh(){
