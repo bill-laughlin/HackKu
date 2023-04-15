@@ -138,6 +138,14 @@ function gen_end(){
     exit = point
 }
 
+function rem_start(){
+
+}
+
+function rem_end(){
+    
+}
+
 function findNewCell(cell, direction){
     var directionCalc = [1, -1, -size, size] // R, L, U, D
     var num = cell + directionCalc[direction]
@@ -277,6 +285,8 @@ function resetBoard(){
         
     }
     recGenerate(Math.floor(Math.random() * numcells))
+    //gen_start()
+    //gen_end()
 }
 
 
