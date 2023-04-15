@@ -187,3 +187,12 @@ function visitedArrayRefresh(){
         visited.push(false);
     }
 }
+
+function mazeResize(newsize){
+    if (newsize == size){
+        return
+    }
+    size = newsize
+    // update visited array
+    // generage new maze
+}
