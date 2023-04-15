@@ -69,7 +69,7 @@ async function start_sequence() {
             move_mask()
             isKeyFound = false
             start = false;
-            document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('character.png')"
+            document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('character.svg')"
             stopConfetti()
         })
 
@@ -197,7 +197,7 @@ function gen_end(){
     }
 
     //when a point is far enough away, change the color to green
-    $("#Box_"+point.x+"_"+point.y).css("background-color", "green")
+    $("#Box_"+point.x+"_"+point.y).css("background-image", "url('door_icon.png')")
 
     //record the ending point
     exit = point
@@ -330,7 +330,7 @@ document.addEventListener('keydown', function(event) {
         checkGoal()
 
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
-        tile.style.backgroundImage = "url('character.png')" //url is placeholder for now
+        tile.style.backgroundImage = "url('character.svg')" //url is placeholder for now
         move_mask()
     }
 });
