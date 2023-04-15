@@ -8,14 +8,11 @@ var parents = []
 var start
 var exit
 
-
 var visited = [];
 var numcells = size * size    
 for (var i = 0; i < numcells; i++) {
     visited.push(false);
 }
-
-
 
 $(document).ready(function(){
     $("#maze").css("min-width", size*20+"px")
@@ -56,55 +53,37 @@ async function gray_maze(){
     }
 }
 
-function remove_border(x, y, direction){ 
-    if(direction == "R" && x != size-1){
+function remove_wall(x, y, direction){ 
+    if(direction == "R"){
         $("#Box_"+x+"_"+y).css("border-right", "solid white 2px")
-        remove_neighbor_border(x+1, y, "L")
+        remove_neighbor_wall(x+1, y, "L")
     }
-    else if(direction == "L" && x != 0){
+    else if(direction == "L"){
         $("#Box_"+x+"_"+y).css("border-left", "solid white 2px")
-        remove_neighbor_border(x-1, y, "R")
+        remove_neighbor_wall(x-1, y, "R")
     }
-    else if(direction == "U" && y != 0){
+    else if(direction == "U"){
         $("#Box_"+x+"_"+y).css("border-top", "solid white 2px")
-        remove_neighbor_border(x, y-1, "D")
+        remove_neighbor_wall(x, y-1, "D")
     }
-    else if(direction == "D" && y != size-1){
+    else if(direction == "D"){
         $("#Box_"+x+"_"+y).css("border-bottom", "solid white 2px")
-        remove_neighbor_border(x, y+1, "U")
+        remove_neighbor_wall(x, y+1, "U")
     }  
 }
 
-function remove_neighbor_border(x, y, direction){
-    if(direction == "R" && x < size){
+function remove_neighbor_wall(x, y, direction){
+    if(direction == "R"){
         $("#Box_"+x+"_"+y).css("border-right", "solid white 2px")
     }
-    else if(direction == "L" && x > 0){
+    else if(direction == "L"){
         $("#Box_"+x+"_"+y).css("border-left", "solid white 2px")
     }
-    else if(direction == "U" && y > 0){
+    else if(direction == "U"){
         $("#Box_"+x+"_"+y).css("border-top", "solid white 2px")
     }
-    else if(direction == "D" && y < size){
+    else if(direction == "D"){
         $("#Box_"+x+"_"+y).css("border-bottom", "solid white 2px")
-    }
-}
-
-function check_move(x, y, direction){
-    if(direction == "R" && x+1 < size){
-        return true
-    }
-    else if(direction == "L" && x > 0){
-        return true
-    }
-    else if(direction == "U" && y > 0){
-        return true
-    }
-    else if(direction == "D" && y+1 < size){
-        return true
-    }
-    else{
-        return false
     }
 }
 
@@ -122,6 +101,7 @@ function gen_point_full(){
         "y":Math.floor(Math.random() * size)
     }
 }
+
 function gen_start(){
     let point = gen_point_restricted()
     if(Math.random() > .5){
@@ -132,7 +112,6 @@ function gen_start(){
     }
     $("#Box_"+point.y+"_"+point.x).css("background-color", "red")
     start = point
-    
 }
 
 function gen_end(){
@@ -145,27 +124,14 @@ function gen_end(){
     }
     $("#Box_"+point.y+"_"+point.x).css("background-color", "green")
     exit = point
-    
 }
 
-function findCell(cell, direction){
-    var numcols = size 
-    var num = -1
-    if(direction == 0){ // Right
-        num = cell + 1
-    }
-    else if(direction == 1){ // Left
-        num = cell - 1
-    }
-    else if(direction == 2){ // Up
-        num = cell - numcols
-    }
-    else{ // Down
-        num = cell + numcols
-    }
+function findNewCell(cell, direction){
+    var directionCalc = [1, -1, -size, size] // R, L, U, D
+    var num = cell + directionCalc[direction]
 
     // error check for going off the grid
-    if(num % numcols == 0 && direction == 0){ // Right border
+    if(num % size == 0 && direction == 0){ // Right border
         num = -1
     }
     else if(num < 0){ // Top border
@@ -174,15 +140,14 @@ function findCell(cell, direction){
     else if(num > numcells-1){ // Bottom border
         num = -1 
     }
-    else if(((num+1) % numcols) == 0 && direction == 1){ // Left border
+    else if(((num+1) % size) == 0 && direction == 1){ // Left border
         num = -1
     }
     return num
 }
 
-function valid(newcell){
-    // return boolean if it is a valid move
-    // values of -1 are off the grid (assigned as invalid in findCell)
+function isValid(newcell){
+    // values of -1 are off the grid (handled in findNewCell)
     if(newcell == -1){
         return false
     }
@@ -190,8 +155,9 @@ function valid(newcell){
 }
 
 function recGenerate(cell){
-    let arrayDirections = [0, 1, 2, 3] // R, L, U, D
-    let randDirections = []
+    var alphaDirections = ["R", "L", "U", "D"]
+    var arrayDirections = [0, 1, 2, 3] // R, L, U, D
+    var randDirections = []
     
     // randomize order of directions to visit
     for(let i = 0; i < 4; i++){
@@ -203,26 +169,11 @@ function recGenerate(cell){
     
     for(let i = 0; i < 4; i++){
         var direction = randDirections[i] // R, L, U, D
-        var newcell = findCell(cell, direction) // get newcell's number
-        if(valid(newcell)){
-            // remove walls between src & dst cells
-            // coordinates of src & direction of dst
+        var newcell = findNewCell(cell, direction) // get newcell's number
+        if(isValid(newcell)){
             var x = cell % size
             var y = (cell - x) / size
-
-            if(direction == 0){ // Right
-                remove_border(x, y, "R")
-            }
-            else if(direction == 1){ // Left
-                remove_border(x, y, "L")
-            }
-            else if(direction == 2){ // Up
-                remove_border(x, y, "U")
-            }
-            else{ // Down
-                remove_border(x, y, "D")
-            }
-            
+            remove_wall(x, y, alphaDirections[direction])            
             visited[newcell] = true // mark newcell as visited
             recGenerate(newcell) // recursively move to newcell
         }
