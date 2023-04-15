@@ -203,31 +203,37 @@ function recGenerate(cell){
 
 
 document.addEventListener('keydown', function(event) {
-    var tile = document.getElementById("Box_"+player.x+"_"+player.y)
-    const borderOpen = "rgb(255, 255, 255)";
-    
-    tile.style.backgroundImage = "";
+    if (event.keyCode >= 37 && event.keyCode <= 40) {
+        event.preventDefault();
 
-    computedStyle = window.getComputedStyle(document.getElementById("Box_"+player.x+"_"+player.y));
-    const borderTopColor = computedStyle.getPropertyValue('border-top-color');
-    const borderRightColor = computedStyle.getPropertyValue('border-right-color');
-    const borderBottomColor = computedStyle.getPropertyValue('border-bottom-color');
-    const borderLeftColor = computedStyle.getPropertyValue('border-left-color');
-    console.log(borderTopColor+" "+borderBottomColor+" "+borderLeftColor+" "+borderRightColor);
+        var tile = document.getElementById("Box_"+player.x+"_"+player.y)
+        const borderOpen = "rgb(255, 255, 255)";
+        
+        tile.style.backgroundImage = "";
 
-    if (event.code === 'ArrowUp' && borderTopColor == borderOpen) {
-        player.y--
-    } else if (event.code === 'ArrowDown' && borderBottomColor == borderOpen) {
-        player.y++
-    } else if (event.code === 'ArrowLeft' && borderLeftColor == borderOpen) {
-        player.x--
-    } else if (event.code === 'ArrowRight' && borderRightColor == borderOpen) {
-        player.x++
+        computedStyle = window.getComputedStyle(document.getElementById("Box_"+player.x+"_"+player.y));
+        const borderTopColor = computedStyle.getPropertyValue('border-top-color');
+        const borderRightColor = computedStyle.getPropertyValue('border-right-color');
+        const borderBottomColor = computedStyle.getPropertyValue('border-bottom-color');
+        const borderLeftColor = computedStyle.getPropertyValue('border-left-color');
+        console.log(borderTopColor+" "+borderBottomColor+" "+borderLeftColor+" "+borderRightColor);
+
+        if (event.code === 'ArrowUp' && borderTopColor == borderOpen) {
+            player.y--
+        } else if (event.code === 'ArrowDown' && borderBottomColor == borderOpen) {
+            player.y++
+        } else if (event.code === 'ArrowLeft' && borderLeftColor == borderOpen) {
+            player.x--
+        } else if (event.code === 'ArrowRight' && borderRightColor == borderOpen) {
+            player.x++
+        }
+        
+        tile = document.getElementById("Box_"+player.x+"_"+player.y)
+        tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
+        move_mask()
     }
+
     
-    tile = document.getElementById("Box_"+player.x+"_"+player.y)
-    tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-    move_mask()
 });
 
 function visitedArrayRefresh(){
