@@ -3,10 +3,15 @@
 
 
 var size = 20
+var box_dimension = 30
+
 var maze = []
 var parents = []
 var start
 var exit
+
+
+
 
 var visited = [];
 var numcells = size * size    
@@ -15,7 +20,10 @@ for (var i = 0; i < numcells; i++) {
 }
 
 $(document).ready(function(){
-    $("#maze").css("min-width", size*20+"px")
+    $("#maze").css("width", size*box_dimension+"px")
+    $("#maze").css("height", size*box_dimension+"px")
+    $("#mask_maze").css("width", size*box_dimension+"px")
+    $("#mask_maze").css("height", size*box_dimension+"px")
     var str = ""
     var iter = 0;
     for(let j = 0; j<size;j++){

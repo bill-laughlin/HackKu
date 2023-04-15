@@ -19,3 +19,15 @@
     width: fit-content;
     height: max-content;
 }
+
+.mask{
+    position:absolute;
+}
+
+.maze{
+    position: absolute;
+}
+
+.maze_container{
+    position: relative
+}
