@@ -15,22 +15,31 @@
 
         </div>
         <div class="relative inline-block text-left">
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Size"> 
+            <!-- <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Size">  -->
+
+            <div class="dropdown">
+                <button class="dropbtn">Maze Size</button>
+                <div class="dropdown-content">
+                  <a href="#">20 x 20</a>
+                  <a href="#">50 x 50</a>
+                  <a href="#">100 x 100</a>
+                </div>
+              </div>
 
         </div>
           
         <div class="block lg:hidden">
-            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                Restart
+        <div class="block">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="resetBoard()">
+                Generate New Maze
             </button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Generate Maze
-            </button>
+        </div>
         </div>
       </nav>
       
-    <div class="content-center">
-        <div id="maze"></div>
+    <div class="maze_container">
+        <div id="maze" class="maze"></div>
+        <div id="mask_maze" class="mask"></div>
     </div>
 </body>
 </html>
