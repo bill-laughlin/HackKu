@@ -205,7 +205,6 @@ function gen_end(){
 
 
 function gen_key(){
-    $("#Box_"+key.x+"_"+key.y).css("background-color", "transparent")
     let point = gen_point_full()
     var distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     while(distance < Math.floor(size*.75)){
@@ -213,7 +212,7 @@ function gen_key(){
         point = gen_point_full()
         distance = Math.sqrt(Math.pow((point.x - start.x), 2) + Math.pow((point.y - start.y), 2))
     }
-    $("#Box_"+point.x+"_"+point.y).css("background-color", "gold")
+    $("#Box_"+point.x+"_"+point.y).css("background-image", "url('key_icon.jpg')")
 
     if (start != point && exit != point){ 
         key = point
@@ -286,7 +285,7 @@ async function recGenerate(cell){
 function checkGoal(){
     if (player.x == key.x && player.y == key.y){
         isKeyFound = true
-        $("#Box_"+player.x+"_"+player.y).css("background-color", "transparent")
+        $("#Box_"+player.x+"_"+player.y).css("background-image", "")
         //key found message goes here
     }
     if (isKeyFound == true && player.x == exit.x && player.y == exit.y){
