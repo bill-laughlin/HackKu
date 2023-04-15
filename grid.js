@@ -9,19 +9,22 @@ var exit = {}
 $(document).ready(function(){
     $("#maze").css("min-width", size*20+"px")
     var str = ""
+    var iter = 0;
     for(let j = 0; j<size;j++){
         var line = []
         str += "<div class='row'>"
         for (let i = 0; i < size; i++){
+            iter++
             var id = "Box_" + i +"_"+j
             var box = {
-                id:"",
-                value:-1
+                html_id:"",
+                value:-1,
+                id: iter
             }
-            box.id = id
+            box.html_id = id
             line.push(box)
           
-            str += `<div id="`+box.id+`" class="box"></div>`
+            str += `<div id="`+box.html_id+`" class="box"></div>`
         }
         str+="</div>"
         maze.push(line)
@@ -133,4 +136,11 @@ function gen_start(){
     start = point
     console.log(start)
     
+}
+
+function gen_end(){
+    let point = gen_point()
+    while(Math.sqrt((point.x * start.x) + (point.y * start.y)) < 50){
+
+    }
 }
