@@ -283,6 +283,8 @@ async function recGenerate(cell){
 function checkGoal(){
     if (player.x == key.x && player.y == key.y){
         isKeyFound = true
+        $("#Box_"+player.x+"_"+player.y).css("background-color", "transparent")
+        //key found message goes here
     }
     if (isKeyFound == true && player.x == exit.x && player.y == exit.y){
         celebration()
