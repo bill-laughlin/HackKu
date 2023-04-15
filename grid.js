@@ -5,7 +5,7 @@
 var size = 100
 var maze = []
 var start
-var exit = {}
+var exit
 $(document).ready(function(){
     $("#maze").css("min-width", size*20+"px")
     var str = ""
@@ -31,8 +31,8 @@ $(document).ready(function(){
     }
     $("#maze").append(str)
     // gray_maze()
-    // test()
     gen_start()
+    gen_end()
 })
 
 async function gray_maze(){
@@ -41,26 +41,6 @@ async function gray_maze(){
             $("#Box_"+j+"_"+i).css("background-color", "gray")
         }
         await new Promise(resolve => setTimeout(resolve, 10));
-    }
-}
-
-function test(){
-    for(let i = 0; i < size; i++){
-        for(let j = 0; j < size; j++){
-            var rand = Math.floor(Math.random() * 4);
-            if(rand ==  0){
-                remove_border(i, j, "R")
-            }
-            else if(rand == 1){
-                remove_border(i, j, "L")
-            }
-            else if(rand == 2){
-                remove_border(i, j, "U")
-            }
-            else if(rand == 3){
-                remove_border(i, j, "D")
-            }
-        }
     }
 }
 
@@ -123,7 +103,7 @@ function gen_point(){
         "y":Math.floor(Math.random() * gen_box_size)
     }
 }
-function gen_start(){
+async function gen_start(){
     let point = gen_point()
     console.log(point)
     if(Math.random() > .5){
@@ -138,9 +118,14 @@ function gen_start(){
     
 }
 
-function gen_end(){
+async function gen_end(){
     let point = gen_point()
+    console.log(Math.sqrt((point.x * start.x) + (point.y * start.y)))
     while(Math.sqrt((point.x * start.x) + (point.y * start.y)) < 50){
-
+        console.log('check')
     }
+    $("#Box_"+point.y+"_"+point.x).css("background-color", "green")
+    exit = point
+    console.log(exit)
+    
 }
