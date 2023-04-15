@@ -13,10 +13,13 @@ $(document).ready(function(){
         var line = []
         str += "<div class='row'>"
         for (let i = 0; i < size; i++){
-            var box = {}
-            box.id = "Box_" + i +"_"+j
-            box.value = -1
-            line.push(id)
+            var id = "Box_" + i +"_"+j
+            var box = {
+                id:"",
+                value:-1
+            }
+            box.id = id
+            line.push(box)
           
             str += `<div id="`+box.id+`" class="box"></div>`
         }
