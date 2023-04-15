@@ -139,14 +139,6 @@ function gen_end(){
     exit = point
 }
 
-function rem_start(){
-
-}
-
-function rem_end(){
-
-}
-
 function findNewCell(cell, direction){
     var directionCalc = [1, -1, -size, size] // R, L, U, D
     var num = cell + directionCalc[direction]
@@ -227,27 +219,16 @@ document.addEventListener('keydown', function(event) {
     
     tile = document.getElementById("Box_"+player.x+"_"+player.y)
     tile.style.backgroundImage = "url('https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3')" //url is placeholder for now
-    move_mask()
+    // move_mask()
 });
 
 function visitedArrayRefresh(){
     visited.length = 0 // remove all values
-    var numcells = size * size  // might need to have another here function for size changes
+    numcells = size * size  // might need to have another here function for size changes
     for (var i = 0; i < numcells; i++) {
         visited.push(false);
     }
 }
-
-
-function mazeResize(newsize){
-    if (newsize == size){
-        return
-    }
-    size = newsize
-    // update visited array
-    // generage new maze
-}
-
 
 function gen_mask(){
     $("#mask_maze").empty()
@@ -283,13 +264,47 @@ function resetBoard(){
         for(let j = 0; j < size; j++){
             $("#Box_"+j+"_"+i).css("border", "2px solid black")
         }
-        
     }
-    // rem_start()
-    // rem_end()
     recGenerate(Math.floor(Math.random() * numcells))
     gen_start()
     gen_end()
 }
 
+function resetSize(){
+	for(let i = 0; i< size; i++){
+        for(let j = 0; j < size; j++){
+            $("#Box_"+j+"_"+i).css("border", "2px solid white")
+        }
+    }
+}
 
+function mazeResize(newsize){
+    if (newsize == size){
+        return
+    }
+    resetSize()
+    size = newsize
+    generateBox()
+    resetBoard()
+}
+
+function generateBox(){
+    $("#maze").empty()
+    $("#maze").css("width", size*box_dimension+"px")
+    $("#maze").css("height", size*box_dimension+"px")
+    $("#mask_maze").css("width", size*box_dimension+"px")
+    $("#mask_maze").css("height", size*box_dimension+"px")
+    var str = ""
+    for(let j = 0; j<size;j++){
+        var line = []
+        str += "<div class='row'>"
+        for (let i = 0; i < size; i++){
+            var id = "Box_" + i +"_"+j
+            line.push(id)
+            str += `<div id="`+id+`" class="box"></div>`
+        }
+        str+="</div>"
+        maze.push(line)
+    }
+    $("#maze").append(str)
+}
