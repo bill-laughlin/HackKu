@@ -421,7 +421,9 @@ function toggleVisability(level){
 function move_mask(){
     //gen_mask() //need to genearte a new mask if player wants a real challange
     //this will allow only the boxes around the player to be visible (not remember where he's been)
-    
+    if(vision == 5){
+        gen_mask()
+    }
     console.log(player)
     for(let i = player.x-vision;i< player.x+(vision+1); i++){
         for(let j = player.y-vision; j< player.y+(vision+1); j++){
