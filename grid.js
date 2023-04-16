@@ -1,4 +1,4 @@
-var size = 10
+var size = 20
 var box_dimension = 30
 var vision = 7 //boxes up or down
 //if 3, total vision is a 7x7 grid (one in the center for a player)
