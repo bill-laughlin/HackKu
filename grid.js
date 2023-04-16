@@ -3,7 +3,7 @@
 
 
 
-var size = 5
+var size = 20
 
 
 var box_dimension = 30
