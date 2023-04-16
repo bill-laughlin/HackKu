@@ -453,9 +453,9 @@ function generateBox(){
 
 function directions(){
     alert(`    Welcome to The A-Maze-ing Escape!\n
-    To create a new maze before you finish, select 'Generate New Maze'.\n
+    To create a new maze, select 'Generate New Maze'.\n
+    Adjust the 'Maze Size' and 'Visibility' as you desire.\n
     Use the arrow keys or 'WASD' to navigate and find the key.\n
     Finally navigate to the exit door and ESCAPE.\n
-    Adjust the 'Maze Size' and 'Visibility' as you desire.\n
     `)
 }
