@@ -61,7 +61,7 @@ async function start_sequence() {
             startTimer()
             gen_mask()
             move_mask()
-            isKeyFound = false
+            isKeyFound = false;
             start = false;
             document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('character.svg')"
             stopConfetti()
@@ -138,7 +138,6 @@ function remove_neighbor_wall(x, y, direction){
     }
 }
 
-
 var gen_box_size = size*.2 // geneates a size of the corner that is 20% of the total size of the maze
 //gen_point_restricted generates a point in a box that is 20% of the in the x and
 // 20% of the size in the y of the entire box
@@ -156,7 +155,6 @@ function gen_point_full(){
         "y":Math.floor(Math.random() * size)
     }
 }
-
 
 //gen_start picks the starting point of the player
 function gen_start(){
@@ -230,7 +228,7 @@ function gen_key(){
 
 function findNewCell(cell, direction){
     var directionCalc = [1, -1, -size, size] // R, L, U, D
-    var num = cell + directionCalc[direction]
+    var num = cell + directionCalc[direction] // cell position between 0 and (numcells-1)
 
     // error check for going off the grid
     if(num % size == 0 && direction == 0){ // Right border
@@ -269,9 +267,12 @@ async function recGenerate(cell){
         arrayDirections.splice(rand, 1)
     }
     
+    // try all four directions in random order
+    // valid if newcell is on the grid and not already visited
+    // valid newcells have walls removed and recursive call for recGenerate
     for(let i = 0; i < 4; i++){
-        var direction = randDirections[i] // R, L, U, D
-        var newcell = findNewCell(cell, direction) // get newcell's number
+        var direction = randDirections[i]
+        var newcell = findNewCell(cell, direction)
         if(isValid(newcell)){
             var x = cell % size
             var y = (cell - x) / size
@@ -333,14 +334,14 @@ document.addEventListener('keydown', function(event) {
         
         checkGoal()
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
-        tile.style.backgroundImage = "url('character.svg')" //url is placeholder for now
+        tile.style.backgroundImage = "url('character.svg')"
         move_mask()
     }
 });
 
 function visitedArrayRefresh(){
     visited.length = 0 // remove all values
-    numcells = size * size  // might need to have another here function for size changes
+    numcells = size * size
     for (var i = 0; i < numcells; i++) {
         visited.push(false);
     }
@@ -425,6 +426,7 @@ function mazeResize(newsize){
     }
     resetSize()
     size = newsize
+    numcells = size * size
     start_sequence()
 }
 
