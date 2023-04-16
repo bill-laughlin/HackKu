@@ -47,7 +47,13 @@
 }
 
 
-
+.timer-style {
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-left: 10px;
+  }
+  
 
 
 
