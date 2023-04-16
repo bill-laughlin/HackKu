@@ -3,7 +3,7 @@
 
 
 
-var size = 20
+var size = 5
 
 
 var box_dimension = 30
@@ -22,7 +22,6 @@ var levelArr = [1, 1, 1] // [20x20, 30x30, 40x40]
 
 var start = false
 
-
 var visited = [];
 var numcells = size * size    
 for (var i = 0; i < numcells; i++) {
@@ -30,7 +29,6 @@ for (var i = 0; i < numcells; i++) {
 }
 
 var player = {"x":0, "y":0}
-
 
 
 $(document).ready(function(){
@@ -41,6 +39,7 @@ async function start_sequence() {
     
     const myPromise = new Promise(async (resolve, reject) => {
         // do something async
+        $("#key_icon").hide()
         generateBox()
         $("#Box_"+player.x+"_"+player.y).css("background-image", "")
         $("#Box_"+start.x+"_"+start.y).css("background-color", "transparent")
@@ -287,6 +286,7 @@ function checkGoal(){
     if (player.x == key.x && player.y == key.y){
         isKeyFound = true
         $("#Box_"+player.x+"_"+player.y).css("background-image", "")
+        $("#key_icon").show()
         //key found message goes here
     }
     if (isKeyFound == true && player.x == exit.x && player.y == exit.y){
