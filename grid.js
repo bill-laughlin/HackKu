@@ -1,4 +1,4 @@
-var size = 20
+var size = 40
 var box_dimension = 30
 var vision = 7 //boxes up or down
 //if 3, total vision is a 7x7 grid (one in the center for a player)
@@ -335,6 +335,7 @@ document.addEventListener('keydown', function(event) {
         checkGoal()
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
         tile.style.backgroundImage = "url('character.svg')"
+        tile.scrollIntoView({behavior:"auto", block:"center", inline:"center"})
         move_mask()
     }
 });
