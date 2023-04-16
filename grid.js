@@ -465,6 +465,7 @@ function directions(){
     \nWhen you are ready, select 'Generate New Maze'.\n
     \nIf you would like to generate a new maze before you finish, select 'Generate New Maze'.\n
     \nNavigate to the exit using the arrow keys.\n
-    \nTo make exit available, you must find and collect the key.
+    \nTo make exit available, you must find and collect the key.\n
+    \nWhen you complete a level, be patient, a new maze will be generated shortly
     `)
 }
