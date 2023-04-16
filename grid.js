@@ -18,6 +18,7 @@ var exit = {"x":0, "y":0}
 var key = {"x":0, "y":0}
 var isKeyFound = false
 var fullVision = false
+var levelArr = [1, 1, 1] // [20x20, 30x30, 40x40]
 
 var start = false
 
@@ -289,6 +290,13 @@ function checkGoal(){
         //key found message goes here
     }
     if (isKeyFound == true && player.x == exit.x && player.y == exit.y){
+        if (size == 20){
+            levelArr[0]++
+        } else if (size == 30){
+            levelArr[1]++
+        } else if (size == 40){
+            levelArr[2]++
+        }
         celebration()
     }
 }
