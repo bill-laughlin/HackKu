@@ -469,11 +469,10 @@ function generateBox(){
 }
 
 function directions(){
-    alert(`Welcome to the maze!\n
+    alert(`Welcome to The A-Maze-Ing Escape!\n
     \nWhen you are ready, select 'Generate New Maze'.\n
     \nIf you would like to generate a new maze before you finish, select 'Generate New Maze'.\n
-    \nNavigate to the exit using the arrow keys.\n
-    \nTo make exit available, you must find and collect the key.\n
-    \nWhen you complete a level, be patient, a new maze will be generated shortly
+    \nUse the arrow keys to navigate and find the key.\n
+    \nFinally navigate to the exit and ESCAPE.\n
     `)
 }
