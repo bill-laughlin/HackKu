@@ -312,7 +312,7 @@ async function celebration(){
 }
 
 document.addEventListener('keydown', function(event) {
-    if (event.keyCode >= 37 && event.keyCode <= 40) {
+    if ((event.keyCode >= 37 && event.keyCode <= 40) || event.code=='KeyW'||event.code=='KeyS'||event.code=='KeyA'||event.code=='KeyD') {
         event.preventDefault();
 
         var tile = document.getElementById("Box_"+player.x+"_"+player.y)
@@ -331,13 +331,13 @@ document.addEventListener('keydown', function(event) {
         const borderLeftColor = computedStyle.getPropertyValue('border-left-color');
         console.log(borderTopColor+" "+borderBottomColor+" "+borderLeftColor+" "+borderRightColor);
 
-        if (event.code === 'ArrowUp' && borderTopColor == borderOpen) {
+        if ((event.code === 'ArrowUp' || event.code === 'KeyW') && borderTopColor == borderOpen) {
             player.y--
-        } else if (event.code === 'ArrowDown' && borderBottomColor == borderOpen) {
+        } else if ((event.code === 'ArrowDown' || event.code === 'KeyS') && borderBottomColor == borderOpen) {
             player.y++
-        } else if (event.code === 'ArrowLeft' && borderLeftColor == borderOpen) {
+        } else if ((event.code === 'ArrowLeft' || event.code === 'KeyA') && borderLeftColor == borderOpen) {
             player.x--
-        } else if (event.code === 'ArrowRight' && borderRightColor == borderOpen) {
+        } else if ((event.code === 'ArrowRight' || event.code === 'KeyD') && borderRightColor == borderOpen) {
             player.x++
         }
         
