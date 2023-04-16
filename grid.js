@@ -1,13 +1,5 @@
-//https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
-//https://stackoverflow.com/questions/38502/whats-a-good-algorithm-to-generate-a-maze
-
-
-
-var size = 20
-
-
+var size = 10
 var box_dimension = 30
-
 var vision = 7 //boxes up or down
 //if 3, total vision is a 7x7 grid (one in the center for a player)
 
@@ -19,7 +11,7 @@ var key = {"x":0, "y":0}
 var isKeyFound = false
 var fullVision = false
 var levelArr = [1, 1, 1] // [20x20, 30x30, 40x40]
-
+var timerInterval;
 var start = false
 
 var visited = [];
@@ -29,7 +21,6 @@ for (var i = 0; i < numcells; i++) {
 }
 
 var player = {"x":0, "y":0}
-
 
 $(document).ready(function(){
     start_sequence()
@@ -65,7 +56,9 @@ async function start_sequence() {
             gen_start()
             gen_end()
             gen_key()
-            start = true; //
+            start = true;
+            resetTimer()
+            startTimer()
             gen_mask()
             move_mask()
             isKeyFound = false
@@ -73,13 +66,27 @@ async function start_sequence() {
             document.getElementById("Box_"+player.x+"_"+player.y).style.backgroundImage = "url('character.svg')"
             stopConfetti()
         })
-
-
     });
-    
-    
 }
 
+function startTimer() {
+    var startTime = new Date().getTime();
+    timerInterval = setInterval(function () {
+      var currentTime = new Date().getTime();
+      var elapsedTime = currentTime - startTime;
+      var minutes = Math.floor(elapsedTime / (1000 * 60));
+      var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+      document.getElementById('timer').innerText = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}  
+
+function resetTimer() {
+    document.getElementById('timer').innerText = '00:00';
+  }  
 
 async function gray_maze(){
     for(let i = 0; i< size; i++){
@@ -167,9 +174,6 @@ function gen_start(){
     if(Math.random() > .5){
         point.y += size - gen_box_size
     }
-
-    //update the color of the starting box
-    // $("#Box_"+point.x+"_"+point.y).css("background-color", "red")
 
     //set the players starting positon
     player = {"x": point.x, "y": point.y};
@@ -272,12 +276,8 @@ async function recGenerate(cell){
             var x = cell % size
             var y = (cell - x) / size
             remove_wall(x, y, alphaDirections[direction])
-
             visited[newcell] = true // mark newcell as visited
-            recGenerate(newcell) // recursively move to newcell
-
-            
-            
+            recGenerate(newcell) // recursively move to newcell      
         }
     }
 }
@@ -304,8 +304,7 @@ function checkGoal(){
 }
 
 async function celebration(){
-    // confetti
-    // up level
+    stopTimer()
     startConfetti()
     await new Promise(resolve => setTimeout(resolve, 10000))
     start_sequence()
