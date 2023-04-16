@@ -10,7 +10,6 @@ var exit = {"x":0, "y":0}
 var key = {"x":0, "y":0}
 var isKeyFound = false
 var fullVision = false
-var levelArr = [1, 1, 1] // [20x20, 30x30, 40x40]
 var timerInterval;
 var start = false
 
@@ -30,6 +29,8 @@ async function start_sequence() {
     
     const myPromise = new Promise(async (resolve, reject) => {
         // do something async
+        stopTimer()
+        resetTimer()
         $("#key_icon").hide()
         $("#key_found").hide()
         generateBox()
@@ -57,7 +58,6 @@ async function start_sequence() {
             gen_end()
             gen_key()
             start = true;
-            resetTimer()
             startTimer()
             gen_mask()
             move_mask()
@@ -86,7 +86,7 @@ function stopTimer() {
 
 function resetTimer() {
     document.getElementById('timer').innerText = '00:00';
-  }  
+}  
 
 async function gray_maze(){
     for(let i = 0; i< size; i++){
@@ -282,23 +282,14 @@ async function recGenerate(cell){
     }
 }
 
-
 function checkGoal(){
     if (player.x == key.x && player.y == key.y){
         isKeyFound = true
         $("#Box_"+player.x+"_"+player.y).css("background-image", "")
         $("#key_icon").show()
         $("#key_found").show()
-        //key found message goes here
     }
     if (isKeyFound == true && player.x == exit.x && player.y == exit.y){
-        if (size == 20){
-            levelArr[0]++
-        } else if (size == 30){
-            levelArr[1]++
-        } else if (size == 40){
-            levelArr[2]++
-        }
         celebration()
     }
 }
@@ -341,7 +332,6 @@ document.addEventListener('keydown', function(event) {
         }
         
         checkGoal()
-
         tile = document.getElementById("Box_"+player.x+"_"+player.y)
         tile.style.backgroundImage = "url('character.svg')" //url is placeholder for now
         move_mask()
@@ -354,15 +344,6 @@ function visitedArrayRefresh(){
     for (var i = 0; i < numcells; i++) {
         visited.push(false);
     }
-}
-
-function mazeResize(newsize){
-    if (newsize == size){
-        return
-    }
-    size = newsize
-    // update visited array
-    // generage new maze
 }
 
 //this function will generate a board ontop of the maze that is positioned identically
@@ -396,7 +377,6 @@ function gen_mask(){
     }
     //append the mask object to the mask div
     $("#mask_maze").append(str)
-
 }
 
 function toggleVisability(level){
@@ -430,8 +410,6 @@ function move_mask(){
         }
     }
 }
-
-
 
 function resetSize(){
 	for(let i = 0; i< size; i++){
